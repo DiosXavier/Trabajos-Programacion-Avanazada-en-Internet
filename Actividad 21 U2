@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <tittle>
+        </title>
+<style type="text/css">
+    canvas{
+        background-color: rgb(255, 255, 255);
+    }
+    </style>
+    </head>
+    <body>
+        <canvas id= "mycanvas" width="500" height="500">
+            hola tu navegador no soporta canvas
+        </canvas>
+            <script type="text/javascript">
+                var cv;
+                var ctx;
+                var color="red";
+                var fig="cir";
+                var press=false;
+                var super_x=0;
+                var super_y=0;
+
+                //<img id="foto" src="foto.jpg" style="display:none">
+
+
+                /*
+                //Movimiento de cuadro
+
+                document.addEventListener('keydown',function(e){
+                    console.log(e)
+                    //arriba
+                    if(e.keyCode==87 || e.keycode==38 ){
+                        super_y-=2;
+                    }
+                    //abajo
+                    if(e.keyCode==83 || e.keycode==40){
+                        super_y+=2;
+                    }
+                    //izquierda
+                    if(e.keyCode==65 || e.keycode==37){
+                        super_x-=2;
+                    }
+                    //derecha
+                    if(e.keyCode==68 || e.keycode==39){
+                        super_x+=2;
+                    }
+
+                    paint();
+                })
+                */
+
+
+                //funcion dibujar cuadro
+
+                function paint(){
+
+                    window.requestAnimationFrame(paint);
+                    console.log("xd");
+                    ctx.fillStyle= "rgb(255, 255, 255)";
+                    ctx.fillRect(0,0,500,500);
+
+                    ctx.fillStyle=generateRandomColor();
+                    ctx.fillRect(super_x,super_y,40,40);
+
+                    //super_y+=5;
+                    super_x+=5;
+                    if(super_x>500){
+                        super_x=0;
+                    }
+                    /*
+                    if(super_y>500){
+                        super_y=0;
+                    }
+                    */
+                }
+
+                function run()
+                {
+                    cv=document.getElementById('mycanvas');
+                    ctx= cv.getContext('2d');
+                    paint();
+                }
+
+                //funcion nueva (Animacion de FPS)
+
+                window.requestAnimationFrame = (function () {
+                return window.requestAnimationFrame ||
+                 window.webkitRequestAnimationFrame ||
+                 window.mozRequestAnimationFrame ||
+                 function (callback) {
+                  window.setTimeout(callback, 17);
+                };
+                }());
+
+                //funcion color aleatorio
+                function generateRandomColor() {
+                 var letters = '0123456789ABCDEF';
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+                }
+
+                //Correr codigo
+                window.addEventListener('load',run,false);
+
+
+
+            </script>
+</body>
+</html>
