@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <tittle>
+            Vue js
+        </title>
+<style type="text/css">
+    </style>
+    <script src="https://unpkg.com/vue@3"></script> <!---crear conexion con vue--->
+    </head>
+    <body>
+        <!---crear contenedor--->
+        <div id="contenedor">
+            <!---mostrar arreglo--->
+            <ol>
+                <li v-for="item in chamacos">
+                    {{ item.name }} : <span>{{ item.role }}</span>
+                </li>
+            </ol>
+
+            <input type="text" v-model="chamaco_name" name="">
+            <input type="text" v-model="chamaco_role" name="">
+            <button @click='save'>Guardar</button>
+        </div>
+            <!---crear aparatado JS para programar--->
+            <script type="text/javascript">
+                //vincular contenedor
+                const {createApp}=Vue;
+                createApp({
+                    data(){
+                        return{
+                            name: 'Jesus Xavier ',
+                            lastname: 'Juarez Sotelo',
+                            n1: 0,
+                            n2: 0,
+                            n3: 0,
+                            age: 0,
+                            chamacos: [{name:'iran', role: 'front'},{name:'duarte', role: 'front'},{name:'Buenrostro', role: 'front'}],
+                            chamaco_name: '',
+                            chamaco_role: ''
+                        }
+                    }, methods:{
+                        save(){
+                        this.chamacos.push({name: this.chamaco_name,role: this.chamaco_role});
+                    }
+                        }
+                }).mount ('#contenedor')  //montando contenedor con vue
+            </script>
+</body>
+</html>
