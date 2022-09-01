@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <tittle>
+            Vue js
+        </title>
+<style type="text/css">
+    </style>
+    <script src="https://unpkg.com/vue@3"></script> <!---crear conexion con vue--->
+    </head>
+    <body>
+        <!---crear contenedor--->
+        <div id="contenedor">
+            <form>
+                <fieldset>
+                    <legend>
+                        Acceso ak panel
+                    </legend>
+
+                    <label>
+                        Correo Electronico
+                    </label>
+                    <input type="email" v-model="email">
+                    <label>
+                        Password
+                    </label>
+                    <input type="password" v-model="password">
+                    <button @click="login">
+                        Acceder
+                    </button>
+    
+                    
+                </fieldset>
+            </form>
+        </div>
+            <!---crear aparatado JS para programar--->
+            <script type="text/javascript">
+                //vincular contenedor
+                const {createApp}=Vue;
+
+                createApp({
+                    data(){
+                        return{
+                            users:null,
+                            email:'',
+                            password:''
+                        }
+                    }, methods:{
+                        login(e){
+                            var email_user=this.email;
+                            var password_user=this.password;
+
+                            e.preventDefault();
+                            var access = this.users.map(function(u){
+                                //console.log(u.email.toLowerCase());
+                                if(email_user==u.email.toLowerCase() ){
+                                    if(password_user==u.password){
+                                        console.log("Accedido");
+                                        return true;
+                                    }
+                                }
+                                console.log(access);
+                            });
+
+                        }
+
+                    },mounted(){
+                        fetch('users.json')
+                        .then((res) => res.json())
+                        .then((json) => (this.users = json))
+                        .catch((err) => (console.log(err)))
+                    }
+                }).mount ('#contenedor')  //montando contenedor con vue
+            </script>
+</body>
+</html>
