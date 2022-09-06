@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <tittle>
+        </title>
+<style type="text/css">
+    </style>
+    <script src="https://unpkg.com/vue@3"></script> <!---crear conexion con vue--->
+    </head>
+    <body>
+        <!---crear contenedor--->
+        <div id="contenedor">
+            <table id="main_table">
+                <legend>
+                    Tabla de Usuarios:
+                </legend>
+                <legend>------------------------------------------------------------------------------------------------------</legend>
+                <thead>
+                    <th>Nombre:</th>
+                    <th>Username:</th>
+                    <th>Email:</th>
+                </thead>
+                <tbody>
+                    <tr v-for="u in users">
+                        <td>{{u.name}}</td>
+                        <td>{{u.username}}</td>
+                        <td>{{u.email}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <legend>------------------------------------------------------------------------------------------------------</legend>
+            <br>
+            <legend>
+                Agregar Usuario:
+            </legend><br>
+            <label>
+                Nombre de Usuario
+            </label>
+            <input type="name" v-model="name"><br>
+            <br>
+            <label>
+                Correo Electronico
+            </label>
+            <input type="email" v-model="email"><br>
+            <br>
+            <label>
+                Password
+            </label>
+            <input type="password" v-model="password"><br>
+            <br>
+            <label>
+                Username
+            </label>
+            <input type="username" v-model="username"><br>
+            <br>
+                    <br>
+                    <button @click="agregar">
+                        Agregar.
+                    </button>
+        </div>
+            <!---crear aparatado JS para programar--->
+            <script type="text/javascript">
+                //vincular contenedor
+                const {createApp}=Vue;
+                
+                createApp({
+                    data(){
+                        return{
+                            users:[],
+                            email:'',
+                            password:'',
+                            name:'',
+                            username:''
+                        }
+                    }, methods:{
+                        agregar(e){
+                        this.users.push({name: this.name,email: this.email,password: this.password, username: this.username});
+                        localStorage.clear();
+                        var access=this.users.map(function(u){
+                        localStorage.setItem("nombre",u.name)
+                        localStorage.setItem("correo",u.email)
+                        localStorage.setItem("Username",u.username)
+                    })
+                         }
+                    },mounted(){
+                        fetch('users.json')
+                        .then((res) => res.json())
+                        .then((json) => (this.users = json))
+                        .catch((err) => (console.log(err)))
+                    }
+                }).mount ('#contenedor')  //montando contenedor con vue
+            </script>
+</body>
+</html>
