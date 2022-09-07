@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <tittle>
+        </title>
+<style type="text/css">
+    </style>
+    <script src="https://unpkg.com/vue@3"></script> <!---crear conexion con vue--->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> <!---crear conexion con visuales de alertas--->
+    </head>
+    <body>
+        <!---crear contenedor--->
+        <div id="contenedor">
+            <table id="main_table" v-if="mostrartabla==true">
+                <div id="contenedor">
+                    <h3 v-if="mostrartabla==true">
+                        Tabla de Usuarios:
+                    </h3>
+                    <button @click="ocultart" v-if="mostrartabla==true">Agregar Usuario.</button>
+                <legend v-if="mostrartabla==true">----------------------------------------------------------------------------------------------------------------------------------------------------------------------</legend>
+                <thead>
+                    <th>#</th>
+                    <th>Nombre:</th>
+                    <th>Username:</th>
+                    <th>Email:</th>
+                    <th>WebSite:</th>
+                    <th>Telefono:</th>
+                    <th>Acciones:</th>
+                </thead>
+                <tbody>
+                    <tr v-for="(u,index) in users" >
+                        <td>{{u.id}}</td>
+                        <td>{{u.name}}</td>
+                        <td>{{u.username}}</td>
+                        <td>{{u.email}}</td>
+                        <td>{{u.website}}</td>
+                        <td>{{u.phone}}</td>
+                        <td><button @click="eliminar(index)">Eliminar</button><button @click="formeditar(index)">Editar</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <legend v-if="mostrartabla==true">---------------------------------------------------------------------------------------------------------------------------------------------------------------------</legend>
+            <form v-if="mostrarform==true">
+                <h3>
+                    Agregar Usuario:
+                </h3>
+            <label>
+                Nombre de Usuario
+            </label>
+            <input type="name" v-model="name">
+            <label>
+                Correo Electronico
+            </label>
+            <input type="email" v-model="email"><br>
+            <br>
+            <label>
+                Password
+            </label>
+            <input type="password" v-model="password">
+            <label>
+                Username
+            </label>
+            <input type="username" v-model="username"><br>
+            <br>
+            <label>
+                Telefono
+            </label>
+            <input type="phone" v-model="phone">
+            <label>
+                Sitio Web:
+            </label>
+            <input type="website" v-model="website"><br>
+            <br>
+            
+            <button @click="agregar">Agregar.</button>
+        </form>
+        <form v-if="mostrarform2==true">
+            <h3>
+                Editar Usuario:
+            </h3>
+        <label>
+            Nombre de Usuario
+        </label>
+        <input type="name" v-model="name">
+        <label>
+            Correo Electronico
+        </label>
+        <input type="email" v-model="email"><br>
+        <br>
+        <label>
+            Password
+        </label>
+        <input type="password" v-model="password">
+        <label>
+            Username
+        </label>
+        <input type="username" v-model="username"><br>
+        <br>
+        <label>
+            Telefono
+        </label>
+        <input type="phone" v-model="phone">
+        <label>
+            Sitio Web:
+        </label>
+        <input type="website" v-model="website"><br>
+        <br>
+        
+        <button @click="editar(index)">Editar</button>
+    </form>
+        </div>
+            <!---crear aparatado JS para programar--->
+            <script type="text/javascript">
+                //vincular contenedor
+                const {createApp}=Vue;
+                var i=11;
+                createApp({
+                    data(){
+                        return{
+                            users:[],
+                            email:'',
+                            password:'',
+                            name:'',
+                            username:'',
+                            phone:'',
+                            website:'',
+                            id: 1,
+                            mostrartabla: true,
+                            mostrarform: false,
+                            mostrarform2: false,
+                            indexU:null
+                        }
+                    }, methods:{
+                        agregar(e){
+                        this.id=i;
+                        this.users.push({id: this.id, name: this.name,email: this.email,password: this.password, username: this.username, phone: this.phone, website: this.website});
+                        localStorage.clear();
+                        var access=this.users.map(function(u){
+                        localStorage.setItem("nombre",u.name)
+                        localStorage.setItem("correo",u.email)
+                        localStorage.setItem("Username",u.username)
+                        localStorage.setItem("Phone",u.phone)
+                        localStorage.setItem("WebSite",u.website)
+                        }
+                         )
+                         i++;
+                        this.mostrartabla=true;
+                        this.mostrarform=false;
+                        swal("Excelente...", "Has agregado un usuario.", "success");
+                         },eliminar(index){
+                            this.users.splice(index,1);
+                            swal("Excelente...", "Has Eliminado a un usuario.", "success");
+                         },formeditar(index){
+                            indexU=index;
+                            this.mostrartabla=false;
+                            this.mostrarform2=true;
+                         },editar(){
+                            this.id=null;
+                            this.users[indexU] = {id: this.id, name: this.name,email: this.email,password: this.password, username: this.username, phone: this.phone, website: this.website};
+                            this.mostrartabla=true;
+                            this.mostrarform2=false;
+                            swal("Excelente...", "Has Editado a un usuario.", "success");
+                         },ocultart(){
+                            this.mostrartabla=false;
+                            this.mostrarform=true;
+                         }
+                    },mounted(){
+                        fetch('users.json')
+                        .then((res) => res.json())
+                        .then((json) => (this.users = json))
+                        .catch((err) => (console.log(err)))
+                    }
+                }).mount ('#contenedor')  //montando contenedor con vue
+            </script>
+</body>
+</html>
