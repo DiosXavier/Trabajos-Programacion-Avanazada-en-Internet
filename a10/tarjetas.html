@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <tittle>
+        </title>
+<style type="text/css">
+    </style>
+    <script src="https://unpkg.com/vue@3"></script> <!---crear conexion con vue--->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> <!---crear conexion con visuales de alertas--->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script> <!---crear conexion con Axios-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <!---crear contenedor--->
+        <div id="contenedor">
+            <div class="row">
+                <div class="card" style="width: 12rem;" v-for="u in pelis">
+                    <img :src="'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/'+u.backdrop_path" class="card-img-top" alt="">
+                    <div class="card-body">
+                      <h5 class="card-title">{{u.title}}</h5>
+                      <p class="card-text">Sinopsis: {{u.overview.substring(0,45)}}...</p>
+                      <a @click.prevent="ls(u)" class="btn btn-primary">Ver mas</a>
+                    </div>
+                  </div>
+            </div>
+        </div>
+            <!---crear aparatado JS para programar--->
+            <script type="text/javascript">
+                //vincular contenedor
+                const {createApp}=Vue;
+                var i=11;
+                createApp({
+                    data(){
+                        return{
+                            pelis:[]
+                        }
+                    }, methods:{
+                        ls(e){
+                                                    //Nombre_variable
+                            window.localStorage.setItem('Peli', JSON.stringify(e));
+                            var prueba = JSON.parse(window.localStorage.getItem('Peli'));
+                            console.log(prueba);
+                            swal("Redireccionando...", "Espere un segundo...", "success");
+                            window.location.href="vermas.html";
+                        }
+                    },
+                    mounted(){
+                    //var axios = require('axios');
+
+                    var config = {
+                    method: 'get',
+                    url: 'https://api.themoviedb.org/3/movie/popular?api_key=51d3043c836c89468c2e591007ced9e6&language=en-US&page=1',
+                    headers: { }
+                    };
+                    var trad=this;
+                    axios(config)
+                    .then(function (response) {
+                    //console.log(JSON.stringify(response.data));
+                    trad.pelis=response.data.results;
+                    })
+                    .catch(function (error) {
+                    console.log(error);
+                    });
+                }}
+                ).mount ('#contenedor')  //montando contenedor con vue
+            </script>
+</body>
+</html>
