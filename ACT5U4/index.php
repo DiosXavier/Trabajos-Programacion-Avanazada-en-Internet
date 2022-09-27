@@ -12,7 +12,7 @@
             <h1>
                 INICIO DE SESION:
             </h1>
-            <form class="form">
+            <form  class="form" method="POST" >
             <div class="col-med-3">
                 <fieldset>
                     <legend>
@@ -38,3 +38,8 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
     </body>
 </html>
+
+<!---
+jeju_19@alu.uabcs.mx
+O338lXPk!5k8I6
+--->
